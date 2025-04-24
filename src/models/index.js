@@ -14,8 +14,14 @@ const sequelize = new Sequelize(
 const User = require("./User");
 const Article = require("./Article");
 
-User.initModel(sequelize);
-Article.initModel(sequelize);
+const models = {
+  User: User.initModel(sequelize),
+  Article: Article.initModel(sequelize),
+};
+
+Object.values(models)
+  .filter((model) => typeof model.associate === "function")
+  .forEach((model) => model.associate(models));
 
 module.exports = {
   sequelize,

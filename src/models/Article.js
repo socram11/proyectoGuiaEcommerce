@@ -15,6 +15,16 @@ class Article extends Model {
         content: {
           type: DataTypes.TEXT,
         },
+        author: {
+          type: DataTypes.BIGINT.UNSIGNED,
+          allowNull: false,
+          references: {
+            model: "user",
+            key: "id",
+          },
+          onUpdate: "CASCADE",
+          onDelete: "RESTRICT",
+        },
       },
       {
         sequelize,

@@ -27,8 +27,8 @@ async function show(req, res) {
 
 async function store(req, res) {
   try {
-    const { firstname, lastname } = req.body;
-    const newUser = await User.create({ firstname, lastname });
+    const { firstname, lastname, email, password } = req.body;
+    const newUser = await User.create({ firstname, lastname, email, password });
     res.status(201).json(newUser);
   } catch (err) {
     res
@@ -40,10 +40,10 @@ async function store(req, res) {
 async function update(req, res) {
   try {
     const { id } = req.params;
-    const { firstname, lastname } = req.body;
+    const { firstname, lastname, email, password } = req.body;
 
     const [updatedRowsCount] = await User.update(
-      { firstname, lastname },
+      { firstname, lastname, email, password },
       { where: { id } }
     );
 

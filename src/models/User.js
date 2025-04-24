@@ -15,6 +15,12 @@ class User extends Model {
         lastname: {
           type: DataTypes.STRING,
         },
+        email: {
+          type: DataTypes.STRING,
+        },
+        password: {
+          type: DataTypes.STRING,
+        },
       },
       {
         sequelize,
@@ -22,6 +28,10 @@ class User extends Model {
       }
     );
     return User;
+  }
+
+  static associate(models) {
+    User.hasMany(models.Article, { foreignKey: "author", as: "article" });
   }
 }
 

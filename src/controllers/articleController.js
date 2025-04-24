@@ -1,8 +1,17 @@
-const { Article } = require("../models");
+const { Article, User } = require("../models");
 
 async function index(req, res) {
   try {
-    const articles = await Article.findAll();
+    const articles = await Article.findAll({
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "name", "email"],
+          r,
+        },
+      ],
+    });
     res.status(200).json(articles);
   } catch (err) {
     res
@@ -27,7 +36,7 @@ async function show(req, res) {
 
 async function store(req, res) {
   try {
-    const { title, content } = req.body;
+    const { title, content, author } = req.body;
     const newArticle = await Article.create({ title, content });
     res.status(201).json(newArticle);
   } catch (err) {
@@ -40,10 +49,10 @@ async function store(req, res) {
 async function update(req, res) {
   try {
     const { id } = req.params;
-    const { title, content } = req.body;
+    const { title, content, author } = req.body;
 
     const [updatedRowsCount] = await Article.update(
-      { title, content },
+      { title, content, author },
       { where: { id } }
     );
 
